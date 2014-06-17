@@ -22,30 +22,30 @@ angular.module('mean')
           });
         });
       }
-    });
+    }); // this block should go to angular.module().config
 
 
     $scope.$on('archiveStarted', function(e) {
       archiveId = event.id;
       $log.info('Recording started');
-      $scope.disableToggle = true; // disable button "start"
+      $scope.isDisabled = true; // disable button "start"
     });
 
     $scope.$on('archiveStopped', function(e) {
       archiveId = null;
       $log.info('Recording stopped');
-      $scope.disableToggle = false;
+      $scope.isDisabled = false;
     });
 
     $scope.startRecording = function() {
       $http.get('/videoresume/start').then(function() {
-        $scope.disableToggle = true; // ????????????
+        $scope.isDisabled = true; // ????????????     
       });
     };
 
     $scope.stopRecording = function() {
       $http.get('/videoresume/stop' + archiveId).then(function() {
-        $scope.disableToggle = true; // ????????????
+        $scope.isDisabled = true; // ????????????
       });
     };
   };

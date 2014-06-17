@@ -10,9 +10,9 @@
         <div class="panel-body">
           <div id="subscribers"><div id="publisher"></div></div>
         </div>
-        <div class="panel-footer">
-          <a ng-click="startRecording()" class="btn btn-danger">Start archiving</a>
-          <a ng-click="stopRecording()" class="btn btn-success">Stop archiving</a>
+        <div class="panel-footer" ng-init="scope = {isDisabled: false}">
+          <a ng-click="startRecording()" disabled="{{scope.isDisabled}}" class="btn btn-danger">Start archiving</a>
+          <a ng-click="stopRecording()" disabled="{{!scope.isDisabled}}" class="btn btn-success">Stop archiving</a>
         </div>
       </div>
     </div>
@@ -60,36 +60,3 @@
       </div>
     </div>
   </div>
-
-  <script>
-      // var sessionId = "<%= sessionId %>";
-      // var apiKey = "<%= apiKey %>";
-      // var token = "<%= token %>";
-  </script>
-  <script type="text/javascript">
-
-    // window.onload=function() {
-    //   var apiKey = '27381212',
-    //       apiSecret = '49e68ee8e2f8363b736862c56c5489d51c2a25f0',
-    //       token = "T1==cGFydG5lcl9pZD0yNzM4MTIxMiZzaWc9N2EzNjMyNWQxMzZkOGE3ZjU0NDI0ZWFhMjJiYjc5N2Q4YjI3NGUzZDpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTJfTVg0eU56TTRNVEl4TW41LVUyRjBJRXAxYmlBeE5DQXdOam8xT0RveU5pQlFSRlFnTWpBeE5INHdMak0xTXpFeU5ETXlmbjQmY3JlYXRlX3RpbWU9MTQwMjc1NDMwOSZub25jZT0wLjU3MDczMDc4MDgwMjIwMjQmZXhwaXJlX3RpbWU9MTQwMjg0MDcxMA==";
-  
-    //   var session = OT.initSession(sessionId),
-    //   publisher = OT.initPublisher('publisher'),
-    //   archiveID = null;
-
-    //   session.connect(apiKey, token, function(err, info) {
-    //     if(err) {
-    //       alert(err.message || err);
-    //     }
-    //     session.publish(publisher);
-    //   });
-
-    //   session.on('streamCreated', function(event) {
-    //     session.subscribe(event.stream, 'subscribers', { insertMode: 'append' });
-    //   });
-    // };
-    
-  </script>
-
-  </div>
-
