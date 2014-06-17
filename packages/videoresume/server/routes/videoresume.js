@@ -52,7 +52,7 @@ module.exports = function(Videoresume, app, auth, database) {
         // generate a fresh token for this client
         token = opentok.generateToken(sessionId, { role: 'moderator' });
 
-    res.json({
+      res.json({
       apiKey: apiKey,
       sessionId: sessionId,
       token: token
