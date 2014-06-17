@@ -10,9 +10,9 @@
         <div class="panel-body">
           <div id="subscribers"><div id="publisher"></div></div>
         </div>
-        <div class="panel-footer" ng-init="scope = {isDisabled: false}">
-          <a ng-click="startRecording()" disabled="{{scope.isDisabled}}" class="btn btn-danger">Start archiving</a>
-          <a ng-click="stopRecording()" disabled="{{!scope.isDisabled}}" class="btn btn-success">Stop archiving</a>
+        <div class="panel-footer" ng-init="isDisabled = false">
+          <a ng-click="startRecording()" ng-disabled="isDisabled" class="btn btn-danger">Start archiving</a>
+          <a ng-click="stopRecording()" ng-disabled="!isDisabled" class="btn btn-success">Stop archiving</a>
         </div>
       </div>
     </div>
