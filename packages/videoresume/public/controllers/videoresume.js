@@ -2,8 +2,8 @@
 
 angular.module('mean')
 
-.controller('VideoresumeController', ['$scope', '$rootScope', '$http', 'Global', 'OTSession', 'TB', '$log', '$q',
-  function($scope, $rootScope, $http, Global, OTSession, TB, $log, $q, Videoresume) {
+.controller('VideoresumeController', ['$scope', '$rootScope', '$http', 'Global', 'OTSession', 'TB', '$log', '$q', '$timeout',
+  function($scope, $rootScope, $http, Global, OTSession, TB, $log, $q, $timeout, Videoresume) {
     $scope.global = Global;
 
     // var archiveId = null;
@@ -51,28 +51,52 @@ angular.module('mean')
 
     $scope.startRecording = function(e) {
       $http.get('/videoresume/start').then(function(res) {
+        console.log(res);
         idOfArchive = res.data.id;
         $scope.isDisabled = true;
       });
     };
 
     $scope.stopRecording = function() {
-      $q.all([
-        $http.get('/videoresume/stop/' + idOfArchive).then(function() {
-          idOfArchive = null;
-          $scope.isDisabled = false;
-        }),
-        $http.get('/videoresume/history')
-      ]).then(function(res) {
-        $scope.archives = res.data.archives;
-      });
+      // $q.all([
+      //   $http.get('/videoresume/stop/' + idOfArchive).then(function(res) {
+      //     idOfArchive = null;
+      //     $scope.isDisabled = false;
+      //     $timeout(function(){
+      //       $log.info('wait for 2 seconds');
+      //     }, 2000);
+      //   }),
+      //   $http.get('/videoresume/history')
+      // ]).then(function(res) {
+      //   $scope.archives = res[1].data.archives;
+      // });
+
+      $http.get('/videoresume/stop/' + idOfArchive);
+      $scope.isDisabled = false;
+      setTimeout(function() {
+        $scope.$apply(function() { // wait for opentok to apply changes
+          $http.get('/videoresume/history').then(function(res) {
+            $scope.archives = res.data.archives;
+          });
+        });
+      }, 5000);
     };
 
     $scope.deleteArchive = function(id) {
-      $http.get('/videoresume/delete/' + id).then(function(res) {
-        $scope.archives = res.data.archives;
-      });
+      $http.get('/videoresume/delete/' + id);
+      idOfArchive = null;
+      setTimeout(function() { // wait for opentok to apply changes
+        $scope.$apply(function() {
+          $http.get('/videoresume/history').then(function(res) {
+            $scope.archives = res.data.archives;
+          });
+        });
+      }, 1000);
     };
+
+    $scope.$watch('archives', function(newData) {
+      $scope.archives = newData;
+    });
   }
 ])
 

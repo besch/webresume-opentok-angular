@@ -51,7 +51,7 @@ module.exports = function(Videoresume, app, auth, database) {
     // var page = req.param('page') || 1,
         // offset = (page - 1) * 5;
     opentok.listArchives(function(err, archives) {
-      if (err) return res.send(500, 'Could not list archives. error=' + err.message);
+      if (err) return res.json(err);
       res.json({
         archives: archives,
         // showPrevious: page > 1 ? ('/history?page='+(page-1)) : null,
@@ -73,9 +73,6 @@ module.exports = function(Videoresume, app, auth, database) {
     opentok.startArchive(app.get('sessionId'), {
       name: 'Node Archiving Sample App'
     }, function(err, archive) {
-      // if (err) return res.send(500,
-      //   'Could not start archive for session '+sessionId+'. error='+err.message
-      // );
       if(err) return res.json(err);
       res.json(archive);
     });
@@ -84,15 +81,16 @@ module.exports = function(Videoresume, app, auth, database) {
   app.get('/videoresume/stop/:archiveId', function(req, res) {
     var archiveId = req.param('archiveId');
     opentok.stopArchive(archiveId, function(err, archive) {
-      if (err) return res.send(500, 'Could not stop archive '+archiveId+'. error='+err.message);
-      res.json(archive);
+      if (err) return res.json(err);
+      res.json({text: 'Archive recording stopped'});
     });
   });
 
   app.get('/videoresume/delete/:archiveId', function(req, res) {
     var archiveId = req.param('archiveId');
     opentok.deleteArchive(archiveId, function(err) {
-      if (err) return res.send(500, 'Could not stop archive '+archiveId+'. error='+err.message);
+      if (err) return res.json(err);
+      res.json({text: 'Archive deleted'});
     });
   });
 

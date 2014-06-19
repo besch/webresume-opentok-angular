@@ -6,14 +6,13 @@ angular.module('mean').config(['$stateProvider',
       .state('videoresume home', {
           url: '/videoresume',
           templateUrl: 'videoresume/views/index.html'
-      })
-
-      .state('videoresume history', {
-          url: '/videoresume/history',
-          templateUrl: 'videoresume/views/history.html'
       });
 
-      
+      // .state('videoresume history', {
+      //     url: '/videoresume/history',
+      //     templateUrl: 'videoresume/views/history.html'
+      // });
+
       // .state('videoresume host', {
       //     url: '/videoresume/host',
       //     templateUrl: 'videoresume/views/host.html'
