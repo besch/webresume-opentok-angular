@@ -1,82 +1,59 @@
-<div class="container bump-me" data-ng-controller='VideoresumeController'>
 
+  <div class="container bump-me" data-ng-controller='VideoresumeController'>
 
-  <div class="body-content">
+    <div class="body-content">
 
-
-    <div class="row">
-      <div class="col-lg-6 col-offset-1">
-
-        <div class="panel panel-default">
-          <div class="panel-heading">Create an archive</div>
-          <div class="panel-body">
-            <p>
-              Everyone who joins either the Host View or Participant View
-              joins a single OpenTok session. Anyone with the Host View
-              open can click Start Archive or Stop Archive to control
-              recording of the entire session.
-            </p>
-          </div>
-          <div class="panel-footer">
-            <a class="btn btn-danger" href="/#!/videoresume/host">Host View</a>
-            <a class="btn btn-danger" href="/#!/videoresume/participant">Participant View</a>
-          </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Create you video resume</h3>
         </div>
-
-      </div>
-      <div class="col-lg-6 col-offset-1">
-
-        <div class="panel panel-default">
-          <div class="panel-heading">Play an archive</div>
-          <div class="panel-body">
-            <p>
-              Click through to Past Archives to see examples of using the
-              Archiving REST API to list archives showing status (started,
-              stopped, available) and playback (for available archives).
-            </p>
-          </div>
-          <div class="panel-footer">
-            <a class="btn btn-success" href="/#!/videoresume/history">Past Archives</a>
-          </div>
+        <div class="panel-body">
+          <div id="subscribers"><div id="publisher"></div></div>
         </div>
-
+        <div class="panel-footer" ng-init="{ isDisabled: false, isCameraOn: false, showVideo: false}">
+          <a ng-click="turnOnCamera()" ng-hide="isCameraOn" class="btn btn-success">Turn on camera</a>
+          <a ng-click="startRecording()" ng-show="isCameraOn" ng-disabled="isDisabled" class="btn btn-success">Start archiving</a>
+          <a ng-click="stopRecording()" ng-show="isCameraOn" ng-disabled="!isDisabled" class="btn btn-danger">Stop archiving</a>
+        </div>
       </div>
     </div>
 
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Past Recordings</h3>
+      </div>
+      <div class="panel-body">
+        <p ng-hide="archives">There are no archives currently.</p>
+        <table class="table" ng-show="archives">
+          <thead>
+            <tr>
+              <th>Number</th>
+              <th>View</th>
+              <th>Duration</th>
+              <th>Created at</th>
+              <th>Download</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="archive in archives">
+            <tr>
+              <td>{{$index}}</td>
+              <td>
+                <button ng-click="showVideo = !showVideo" ng-hide="showVideo" class="btn btn-success">Show video</button>
+                <video ng-show="showVideo" width="320" height="240" controls>
+                  <source src="{{archive.url | splitUrl}}" type="video/mp4">
+                </video>
+                <div class="displayBlock">
+                  <button ng-click="showVideo = !showVideo" ng-show="showVideo" class="btn btn-primary">Hide video</button>
+                </div>
+              </td>
+              <td>{{archive.duration}} seconds</td>
+              <td>{{archive.createdAt | date:'shortDate'}}</td>
+              <td><a href="{{archive.url}}" target="_self" class="btn btn-primary">Download</a></td>
+              <td><button ng-click="deleteArchive(archive.id)" class="btn btn-danger">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-
-</div>
-
-
-
-<!-- <div class="" data-ng-controller="VideoresumeController">
-    <h1>Example view from your new awesome package</h1>
-    <h2>Package: {{videoresume.name}}</h2>
-    <ol>
-	<li>
-	    <a href="videoresume/example/anyone">Server route that anyone can access</a>
-	</li>
-	<li>
-	    <a href="videoresume/example/auth">Server route that requires authentication</a>
-	</li>
-	<li>
-	    <a href="videoresume/example/admin">Server route that requires admin user</a>
-	</li>
-	<li>
-	    <a href="videoresume/example/render">Raw Html rendering example from using swig</a>
-	</li>
-    </ol>
-    <h3>
-	<img src="/videoresume/assets/img/logo.png" />
-    </h3>
-    </br>
-    <p class="alert alert-info">You can find your package in /packages/videoresume</p>
-    </br>
-    <p class="alert alert-warning">MEAN versions prior to 0.3.2 will be in /node_modules/videoresume</p>
-    </br>
-    <h3>
-	<a href="http://www.mean.io/#!/docs">Documentation</a>
-    </h3>
-    </br>
-</div>
- -->

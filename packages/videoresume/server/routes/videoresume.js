@@ -31,11 +31,11 @@ module.exports = function(Videoresume, app, auth, database) {
 
 
 
-  app.get('/videoresume', function(req, res) {
-    res.render('index.html');
-  });
+  // app.get('/videoresume', function(req, res) {
+  //   res.render('index.html');
+  // });
 
-  app.get('/videoresume/host', function(req, res) {
+  app.get('/videoresume/index', function(req, res) {
     var sessionId = app.get('sessionId'),
         // generate a fresh token for this client
         token = opentok.generateToken(sessionId, { role: 'moderator' });
@@ -47,27 +47,15 @@ module.exports = function(Videoresume, app, auth, database) {
     });
   });
 
-  app.get('/videoresume/participant', function(req, res) {
-    var sessionId = app.get('sessionId'),
-        // generate a fresh token for this client
-        token = opentok.generateToken(sessionId, { role: 'moderator' });
-
-      res.json({
-      apiKey: apiKey,
-      sessionId: sessionId,
-      token: token
-    });
-  });
-
   app.get('/videoresume/history', function(req, res) {
-    var page = req.param('page') || 1,
-        offset = (page - 1) * 5;
-    opentok.listArchives({ offset: offset, count: 5 }, function(err, archives, count) {
+    // var page = req.param('page') || 1,
+        // offset = (page - 1) * 5;
+    opentok.listArchives(function(err, archives) {
       if (err) return res.send(500, 'Could not list archives. error=' + err.message);
-      res.render('history.html', {
+      res.json({
         archives: archives,
-        showPrevious: page > 1 ? ('/history?page='+(page-1)) : null,
-        showNext: (count > offset + 5) ? ('/history?page='+(page+1)) : null
+        // showPrevious: page > 1 ? ('/history?page='+(page-1)) : null,
+        // showNext: (count > offset + 5) ? ('/history?page='+(page+1)) : null
       });
     });
   });
@@ -76,18 +64,19 @@ module.exports = function(Videoresume, app, auth, database) {
     var archiveId = req.param('archiveId');
     opentok.getArchive(archiveId, function(err, archive) {
       if (err) return res.send(500, 'Could not get archive '+archiveId+'. error='+err.message);
-      res.redirect(archive.url);
+      res.json(archive.url);
     });
   });
 
   app.get('/videoresume/start', function(req, res) {
+    console.log(app.get('sessionId'));
     opentok.startArchive(app.get('sessionId'), {
       name: 'Node Archiving Sample App'
     }, function(err, archive) {
       // if (err) return res.send(500,
       //   'Could not start archive for session '+sessionId+'. error='+err.message
       // );
-      if(err) return console.log(err);
+      if(err) return res.json(err);
       res.json(archive);
     });
   });
@@ -104,25 +93,15 @@ module.exports = function(Videoresume, app, auth, database) {
     var archiveId = req.param('archiveId');
     opentok.deleteArchive(archiveId, function(err) {
       if (err) return res.send(500, 'Could not stop archive '+archiveId+'. error='+err.message);
-      res.redirect('/history');
     });
   });
 
-  app.get('/videoresume/render', function(req, res, next) {
-      Videoresume.render('index', {
-          package: 'videoresume'
-      }, function(err, html) {
-          //Rendering a view from the Package server/views
-          res.send(html);
-      });
-  });
-
-    // app.get('/videoresume/example/render', function(req, res, next) {
-    //     Videoresume.render('index', {
-    //         package: 'videoresume'
-    //     }, function(err, html) {
-    //         //Rendering a view from the Package server/views
-    //         res.send(html);
-    //     });
-    // });
+  // app.get('/videoresume/render', function(req, res, next) {
+  //     Videoresume.render('index', {
+  //         package: 'videoresume'
+  //     }, function(err, html) {
+  //         //Rendering a view from the Package server/views
+  //         res.send(html);
+  //     });
+  // });
 };
