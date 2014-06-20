@@ -33,7 +33,7 @@ angular.module('mean')
     var idOfArchive = null;
 
     $scope.turnOnCamera = function() {
-      $http.get('/videoresume/index').then(function(res) {
+      $http.get('/videoresume/index/group').then(function(res) {
         var data = res.data;
 
         var session = TB.initSession(data.sessionId),
@@ -48,6 +48,24 @@ angular.module('mean')
       });
       $scope.isCameraOn = true;
     };
+
+    // $scope.turnOnCamera = function() {
+    //   $http.get('/videoresume/index').then(function(res) {
+    //     var data = res.data;
+
+    //     var session = TB.initSession(data.sessionId),
+    //         publisher = TB.initPublisher('publisher');
+
+    //     session.connect(data.apiKey, data.token, function(err, info) {
+    //       if(err) {
+    //         alert(err.message || err);
+    //       }
+    //       session.publish(publisher);
+    //     });
+    //   });
+    //   $scope.isCameraOn = true;
+    // };
+
 
     $scope.startRecording = function(e) {
       $http.get('/videoresume/start').then(function(res) {
@@ -102,6 +120,13 @@ angular.module('mean')
 
 .filter('splitUrl', ['$sce', function($sce) {
   return function(input) {
-    return $sce.trustAsResourceUrl(input.split('?')[0]);
+    // console.log(input);
+    if(input !== null) {
+      // $scope.isAvailable = true;
+      return $sce.trustAsResourceUrl(input.split('?')[0]);
+    }
+    else {
+      return input;
+    }
   };
 }]);

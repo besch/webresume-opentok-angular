@@ -47,6 +47,19 @@ module.exports = function(Videoresume, app, auth, database) {
     });
   });
 
+  // for subscribers
+  app.get('/videoresume/index/group/' + app.get('sessionId'), function(req, res) {
+    var sessionId = app.get('sessionId'),
+        // generate a fresh token for this client
+        token = opentok.generateToken(sessionId, { role: 'moderator' });
+
+    res.json({
+      apiKey: apiKey,
+      sessionId: sessionId,
+      token: token
+    });
+  });
+
   app.get('/videoresume/history', function(req, res) {
     // var page = req.param('page') || 1,
         // offset = (page - 1) * 5;

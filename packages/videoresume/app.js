@@ -18,8 +18,15 @@ Videoresume.register(function(app, auth, database) {
 
     //We are adding a link to the main menu for all authenticated users
     Videoresume.menus.add({
-        'title': 'Videoresume home',
-        'link': 'videoresume home',
+        'title': 'Single videoresume',
+        'link': 'single videoresume',
+        'roles': ['authenticated'],
+        'menu': 'main'
+    });
+
+    Videoresume.menus.add({
+        'title': 'Group videoresume',
+        'link': 'group videoresume',
         'roles': ['authenticated'],
         'menu': 'main'
     });
