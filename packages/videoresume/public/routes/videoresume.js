@@ -3,13 +3,8 @@
 angular.module('mean').config(['$stateProvider',
   function($stateProvider) {
     $stateProvider
-      .state('single videoresume', {
+      .state('create videoresume', {
           url: '/videoresume',
-          templateUrl: 'videoresume/views/index.html'
-      })
-
-      .state('group videoresume', {
-          url: '/videoresume/group/*',
           templateUrl: 'videoresume/views/index.html'
       });
 

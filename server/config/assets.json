@@ -18,7 +18,8 @@
                 "public/system/lib/angular-bootstrap/ui-bootstrap-tpls.js",
                 "public/init.js",
                 "public/system/lib/opentok/opentok.min.js",
-                "public/system/lib/opentok/opentok-angular.min.js",
+                "public/system/lib/opentok-angular/opentok-angular.min.js",
+                "public/system/lib/opentok-layout-js/opentok-layout.min.js",
                 "public/*/*.js",
                 "public/*/{controllers,routes,services}/*.js"
             ]

@@ -8,7 +8,21 @@
           <h3 class="panel-title">Create you video resume</h3>
         </div>
         <div class="panel-body">
-          <div id="subscribers"><div id="publisher"></div></div>
+          <!-- <div id="subscribers"><div id="publisher"></div></div> -->
+
+          <ot-session>
+            <ot-layout props="{animate:true}">
+              <div ot-subscriber ng-repeat="stream in streams" 
+                  stream="stream" 
+                  props="{style: {nameDisplayMode: 'off'}}">
+              </div>
+              <div ot-publisher id="publisher" 
+                  apiKey="{{apiKey}}" 
+                  props="{style: {nameDisplayMode: 'off'}, resolution: '1280x720', frameRate: 30}">
+              </div>
+            </ot-layout>
+          </ot-session>
+
         </div>
         <div class="panel-footer" ng-init="{ isDisabled: false, isCameraOn: false, showVideo: false, isAvailable: false}">
           <a ng-click="turnOnCamera()" ng-hide="isCameraOn" class="btn btn-success">Turn on camera</a>
